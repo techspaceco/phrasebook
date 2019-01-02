@@ -63,8 +63,6 @@ started to popularize limiting relational database interaction with SQL abstract
 
 https://www.perl.com/pub/2002/10/22/phrasebook.html
 
-These are just some examples:
-
 ## Implementations
 
 This library differs from other Go SQL implementations in the following areas:
@@ -74,17 +72,16 @@ This library differs from other Go SQL implementations in the following areas:
 * Leading export comments are matched and retained in generated code.
 * The stdlib is the only dependency.
 
-### Perl
-* https://metacpan.org/pod/Data::Phrasebook::SQL
+### Go
+* https://github.com/nleof/goyesql
+* https://github.com/gchaincl/dotsql
 
 ### Clojure
 * https://www.hugsql.org/
 * https://github.com/krisajenkins/yesql
 
-### Go
-* https://github.com/nleof/goyesql
-* https://github.com/gchaincl/dotsql
-
+### Perl
+* https://metacpan.org/pod/Data::Phrasebook::SQL
 
 ## Known Issues
 
