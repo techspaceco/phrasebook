@@ -6,18 +6,21 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/shanna/phrasebook"
-	"github.com/shanna/phrasebook/generate"
-	_ "github.com/shanna/phrasebook/generate/go/constants"
-	_ "github.com/shanna/phrasebook/generate/go/functions"
+	"github.com/techspaceco/phrasebook"
+	"github.com/techspaceco/phrasebook/generate"
+	_ "github.com/techspaceco/phrasebook/generate/go/constants"
+	_ "github.com/techspaceco/phrasebook/generate/go/functions"
 )
 
 func main() {
-	// -package by default it will be the folder name.
-	// -o filename.go by default it will add .go
+	// TODO(shane): Add a -parser to support sources other than SQL.
+	// TODO(shane): Add a -package but default to the CWD folder name.
+	// TODO(shane): Add a -template allowing a text/template source file to be supplied.
+	// TODO(shane): Add a -output but allow nil leaving it up to the generator based on the filename.
 	pkg := "test"
-	_ = pkg
-	inFile := filepath.Join("_testdata", "phrasebook.sql")
+	_ = pkg // TODO:
+
+	inFile := filepath.Join("_testdata", "phrasebook.sql") // TODO: Duh.
 	outFile := inFile + ".go"
 
 	dir, err := os.Getwd() // Default, override with -package.

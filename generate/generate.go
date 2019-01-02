@@ -6,7 +6,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/shanna/phrasebook"
+	"github.com/techspaceco/phrasebook"
 )
 
 type Driver func() (Generator, error)
