@@ -91,4 +91,4 @@ is very simple.
 
 ## License
 
-MIT (C) Techspace P
+MIT
