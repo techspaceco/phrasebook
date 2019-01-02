@@ -3,9 +3,9 @@
 Data phrasebook pattern and code generation for SQL.
 
 SQL is the right way to interact with relational databases! By adding simple
-annotations to your SQL phrasebook creates clear separation between SQL and Go
-and allows for advanced template driven code generation. Use `go:generate` to
-export constants, functions, documentation, tests and more from SQL.
+annotations to SQL a phrasebook creates clear separation between SQL and Go
+allowing for template driven code generation. Use `go:generate` to export
+constants, functions, documentation, tests and more from SQL.
 
 ## Usage
 
