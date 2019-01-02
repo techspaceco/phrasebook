@@ -36,10 +36,11 @@ func ListStaffBirthdays() ([]*User, error) {
 
 The `go:generate` const template generates `repository.sql.go` with string constants.
 ```go
-// DO NOT EDIT!
-// Generated with ❤ by github.com/techspaceco/phrasebook
-// repository.sql
-// 2019-01-01 22:14:08.212693 +0000 GMT m=+0.002107042
+// Generated with ❤ ; DO NOT EDIT
+// generator: github.com/techspaceco/phrasebook
+// source:    repository.sql
+// checksum:  7847ef1b36bf2e4b35c76e3a0b1237b9248194ad
+// timestamp: 2019-01-02 18:48:32.367803 +0000 UTC
 package repository
 
 // List staff with a birthday for @date so you can buy them a beer.

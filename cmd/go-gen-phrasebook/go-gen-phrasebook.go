@@ -36,7 +36,7 @@ func main() {
 		err := os.MkdirAll(path.Dir(*out), os.ModePerm)
 		exitOnError(err)
 
-		output, err := os.Create(*out)
+		output, err = os.Create(*out)
 		exitOnError(err)
 		defer output.Close()
 	}
