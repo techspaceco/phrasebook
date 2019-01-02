@@ -9,10 +9,17 @@ import (
 	"github.com/techspaceco/phrasebook"
 )
 
-type Driver func() (Generator, error)
+type File struct {
+	Source  string
+	Package string
+	Exports phrasebook.Exports
+}
+
+// TODO: More flexible driver configuration.
+type Driver func(template io.Reader) (Generator, error)
 
 type Generator interface {
-	Generate(phrasebook.Exports, io.Writer) error
+	Generate(*File, io.Writer) error
 }
 
 var generatorsMutex sync.RWMutex
@@ -43,8 +50,14 @@ func Generators() []string {
 	return list
 }
 
+// HasDriver by name.
+func HasDriver(name string) bool {
+	_, ok := generators[name]
+	return ok
+}
+
 // New generator instance by name.
-func New(name string) (Generator, error) {
+func New(name string, template io.Reader) (Generator, error) {
 	generatorsMutex.RLock()
 	generator, ok := generators[name]
 	generatorsMutex.RUnlock()
@@ -52,5 +65,5 @@ func New(name string) (Generator, error) {
 	if !ok {
 		return nil, fmt.Errorf("unknown generator %q (forgotten import?)", name)
 	}
-	return generator()
+	return generator(template)
 }

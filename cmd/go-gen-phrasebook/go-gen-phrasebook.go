@@ -3,45 +3,64 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
-	"path/filepath"
+	"path"
 
 	"github.com/techspaceco/phrasebook"
 	"github.com/techspaceco/phrasebook/generate"
 	_ "github.com/techspaceco/phrasebook/generate/go/constants"
-	_ "github.com/techspaceco/phrasebook/generate/go/functions"
+	_ "github.com/techspaceco/phrasebook/generate/go/mapped"
 )
 
 func main() {
-	// TODO(shane): Add a -parser to support sources other than SQL.
-	// TODO(shane): Add a -package but default to the CWD folder name.
-	// TODO(shane): Add a -template allowing a text/template source file to be supplied.
-	// TODO(shane): Add a -output but allow nil leaving it up to the generator based on the filename.
-	pkg := "test"
-	_ = pkg // TODO:
+	pkg := flag.String("package", "", "Output class/package name.")
+	out := flag.String("output", "", "Output pathname. default: stdout.")
+	tmpl := flag.String("template", "constants", "Output template. default: constants")
+	flag.Parse()
 
-	inFile := filepath.Join("_testdata", "phrasebook.sql") // TODO: Duh.
-	outFile := inFile + ".go"
+	in := flag.Arg(0)
 
-	dir, err := os.Getwd() // Default, override with -package.
-	_ = dir
+	// TODO(shane): Move most of this into the generator so it can be run and tested as a lib.
+
+	input, err := os.Open(in)
+	exitOnError(err)
+	defer input.Close()
+
+	if *pkg == "" {
+		*pkg = path.Base(path.Dir(in))
+	}
+
+	output := os.Stdout
+	if *out != "" {
+		err := os.MkdirAll(path.Dir(*out), os.ModePerm)
+		exitOnError(err)
+
+		output, err := os.Create(*out)
+		exitOnError(err)
+		defer output.Close()
+	}
+
+	var template io.Reader
+	if *tmpl != "" && !generate.HasDriver(*tmpl) {
+		template, err = os.Open(*tmpl)
+		exitOnError(err)
+		*tmpl = "template"
+	}
+
+	generator, err := generate.New(*tmpl, template)
 	exitOnError(err)
 
-	in, err := os.Open(inFile)
-	exitOnError(err)
-	defer in.Close()
-
-	exports, err := phrasebook.Parse(in)
+	exports, err := phrasebook.Parse(input)
 	exitOnError(err)
 
-	generator, err := generate.New("const")
-	exitOnError(err)
+	file := &generate.File{
+		Source:  path.Base(in),
+		Package: *pkg,
+		Exports: exports,
+	}
 
-	out, err := os.Create(outFile)
-	exitOnError(err)
-	defer out.Close()
-
-	err = generator.Generate(exports, out)
+	err = generator.Generate(file, output)
 	exitOnError(err)
 }
 
