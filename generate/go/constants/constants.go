@@ -12,7 +12,6 @@ const tmpl = `// Generated with ❤ ; DO NOT EDIT
 // generator: github.com/techspaceco/phrasebook
 // source:    {{ .Source }}
 // checksum:  {{ checksum .Source }}
-// timestamp: {{ current_time }}
 package {{ .Package }}
 {{ range .Exports }}
 
