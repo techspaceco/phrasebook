@@ -28,7 +28,7 @@ const phrasebook = map[string]string{
 	{{- range lines .Comment }}
 	// {{ . }}
 	{{- end }}
-	{{ printf "%q" .Name }}: {{ printf "%q" . }},
+	{{ printf "%q" .Name }}: {{ printf "%q" . | multiline }},
 	{{ end }}
 }
 `

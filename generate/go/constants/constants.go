@@ -17,6 +17,12 @@ package {{ .Package }}
 
 {{- range lines .Comment }}
 // {{ . }}
+{{- else }}
+// {{ .Name }} SQL
+{{- end }}
+//
+{{- range lines .Query }}
+//   {{ . }}
 {{- end }}
 const {{ .Name }} = {{ . | printf "%q" }}
 {{ end }}

@@ -36,7 +36,12 @@ func New(template io.Reader) (*Template, error) {
 		return nil, nil
 	}
 
-	tmpl, err := text.New("").Funcs(text.FuncMap{"lines": lines, "checksum": checksum, "current_time": timestamp}).Parse(string(buf))
+	functions := text.FuncMap{
+		"lines":        lines,
+		"checksum":     checksum,
+		"current_time": timestamp,
+	}
+	tmpl, err := text.New("").Funcs(functions).Parse(string(buf))
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +56,14 @@ func (c *Template) Generate(file *generate.File, w io.Writer) error {
 
 // Lines helper function.
 func lines(s string) []string {
-	return strings.Split(strings.TrimSpace(s), "\n")
+	l := strings.Split(strings.TrimSpace(s), "\n")
+
+	// Return an empty slice in the case of "".
+	if len(l) == 1 && l[0] == "" {
+		return []string{}
+	}
+
+	return l
 }
 
 func checksum(s string) string {
